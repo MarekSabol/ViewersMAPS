@@ -201,6 +201,7 @@ export default function PanelMeasurementTable({
 
       measurements.forEach(m => (m.isActive = m.uid !== uid ? false : true));
       measurement.isActive = true;
+      console.log("kokot " + JSON.stringify(displayMeasurements))
       setDisplayMeasurements(measurements);
     }
   };

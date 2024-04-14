@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Dialog, ButtonEnums, LabellingFlow } from '@ohif/ui';
+import { obj } from '@kitware/vtk.js/macros';
 
 /**
  *
@@ -134,6 +135,40 @@ export function showLabelAnnotationPopup(measurement, uiDialogService, labelConf
       uiDialogService.dismiss({ id: 'select-annotation' });
       if (typeof value === 'string') {
         measurement.label = value;
+      }
+      resolve(measurement);
+    };
+
+    uiDialogService.create({
+      id: 'select-annotation',
+      isDraggable: false,
+      showOverlay: true,
+      content: LabellingFlow,
+      defaultPosition: {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      },
+      contentProps: {
+        labellingDoneCallback: labellingDoneCallback,
+        measurementData: measurement,
+        componentClassName: {},
+        labelData: dropDownItems,
+        exclusive: exclusive,
+      },
+    });
+  });
+}
+
+export function showLabelHemorrhagePopup(measurement, uiDialogService, labelConfig) {
+  const exclusive = labelConfig ? labelConfig.exclusive : false;
+  const dropDownItems = labelConfig ? labelConfig.items : [];
+  return new Promise<Map<any, any>>((resolve, reject) => {
+    const labellingDoneCallback = value => {
+      uiDialogService.dismiss({ id: 'select-annotation' });
+      if (typeof value === 'string') {
+        measurement.displayText[6] = measurement.displayText[6].substring(0, 11) + " " + value;
+        var objKey = Object.keys(measurement.data)
+        measurement.data[objKey].hemorrhage = value
       }
       resolve(measurement);
     };

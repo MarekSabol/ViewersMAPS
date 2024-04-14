@@ -36,6 +36,14 @@ const findingsContextMenu = {
             },
           ],
         },
+        {
+          label: 'Add Hemmorhage Type',
+          commands: [
+            {
+              commandName: 'setHemmorhageType',
+            },
+          ],
+        },
 
         // The example below shows how to include a delegating sub-menu,
         // Only available on the @ohif/mnGrid hanging protocol

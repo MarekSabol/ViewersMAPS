@@ -68,8 +68,8 @@ const MeasurementTable = ({ data, title, onClick, onEdit, servicesManager }) => 
 
 MeasurementTable.defaultProps = {
   data: [],
-  onClick: () => {},
-  onEdit: () => {},
+  onClick: () => { },
+  onEdit: () => { },
 };
 
 MeasurementTable.propTypes = {

@@ -23,6 +23,14 @@ const defaultContextMenu = {
             },
           ],
         },
+        {
+          label: 'Add Hemmorhage Type',
+          commands: [
+            {
+              commandName: 'setHemmorhageType',
+            },
+          ],
+        },
       ],
     },
   ],

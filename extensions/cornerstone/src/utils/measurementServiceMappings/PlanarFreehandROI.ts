@@ -7,7 +7,7 @@ import { utils } from '@ohif/core';
  * Represents a mapping utility for Planar Freehand ROI measurements.
  */
 const PlanarFreehandROI = {
-  toAnnotation: measurement => {},
+  toAnnotation: measurement => { },
 
   /**
    * Maps cornerstone annotation event data to measurement service format.
@@ -50,7 +50,6 @@ const PlanarFreehandROI = {
     } else {
       displaySet = DisplaySetService.getDisplaySetsForSeries(SeriesInstanceUID);
     }
-
     return {
       uid: annotationUID,
       SOPInstanceUID,
@@ -92,8 +91,8 @@ function getColumnValueReport(annotation) {
   const { metadata, data } = annotation;
   const { mean, stdDev, max, area, unit, areaUnit, perimeter } =
     data.cachedStats[`imageId:${metadata.referencedImageId}`];
-  columns.push(`Maximum`, `Mean`, `Std Dev`, 'Pixel Unit', `Area`, 'Unit', 'Perimeter');
-  values.push(max, mean, stdDev, unit, area, areaUnit, perimeter);
+  columns.push(`Maximum`, `Mean`, `Std Dev`, 'Pixel Unit', `Area`, 'Unit', 'Perimeter', "Hemorrhage");
+  values.push(max, mean, stdDev, unit, area, areaUnit, perimeter, "Type to be set");
 
   /** Add FOR */
   if (metadata.FrameOfReferenceUID) {
@@ -194,6 +193,8 @@ function getDisplayText(annotation, displaySet) {
       displayText.push(`Perimeter: ${utils.roundNumber(perimeter)} ${modalityUnit}`);
     }
   }
+
+  displayText.push(`Hemorrhage: Choose type`);
 
   return displayText;
 }

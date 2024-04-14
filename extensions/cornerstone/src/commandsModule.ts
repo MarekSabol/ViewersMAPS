@@ -16,7 +16,7 @@ import { Types as OhifTypes } from '@ohif/core';
 import { vec3, mat4 } from 'gl-matrix';
 
 import CornerstoneViewportDownloadForm from './utils/CornerstoneViewportDownloadForm';
-import { callLabelAutocompleteDialog, showLabelAnnotationPopup } from './utils/callInputDialog';
+import { callLabelAutocompleteDialog, showLabelAnnotationPopup, showLabelHemorrhagePopup } from './utils/callInputDialog';
 import toggleImageSliceSync from './utils/imageSliceSync/toggleImageSliceSync';
 import { getFirstAnnotationSelected } from './utils/measurementServiceMappings/utils/selection';
 import getActiveViewportEnabledElement from './utils/getActiveViewportEnabledElement';
@@ -156,6 +156,22 @@ function commandsModule({
       );
     },
 
+    setHemmorhageType: ({ uid }) => {
+      const labelConfig = customizationService.get('measurementLabels');
+      const measurement = measurementService.getMeasurement(uid);
+      showLabelHemorrhagePopup(measurement, uiDialogService, labelConfig).then(
+        (val: Map<any, any>) => {
+          measurementService.update(
+            uid,
+            {
+              ...val,
+            },
+            true
+          );
+        }
+      );
+    },
+
     /**
      *
      * @param props - containing the updates to apply
@@ -200,7 +216,7 @@ function commandsModule({
           code.CodeMeaning = code.text || label;
           code.CodingSchemeDesignator = code.ref.substring(0, split);
         }
-        updatedMeasurement[measurementKey] = code;
+        // updatedMeasurement[measurementKey] = code;
         // TODO - remove this line once the measurements table customizations are in
         if (measurementKey !== 'finding') {
           if (updatedMeasurement.findingSites) {
@@ -809,6 +825,9 @@ function commandsModule({
     },
     setMeasurementLabel: {
       commandFn: actions.setMeasurementLabel,
+    },
+    setHemmorhageType: {
+      commandFn: actions.setHemmorhageType,
     },
     updateMeasurement: {
       commandFn: actions.updateMeasurement,
